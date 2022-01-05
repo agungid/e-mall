@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
+use App\Services\ResponseService;
 
 class LoginController extends Controller
 {
@@ -12,20 +13,12 @@ class LoginController extends Controller
         $creadential = $request->only('email', 'password');
 
         if(!$token = auth()->guard('api_admin')->attempt($creadential)) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'Email or password in correct',
-                'data'    => []
-            ], 401);
+            return ResponseService::toJson(false,'Email or password in correct', 401);
         }
 
-        return response()->json([
-            'status' => true,
-            'message'=> 'Login success',
-            'data'   => [
-                'token' => $token,
-                'user' => auth()->guard('api_admin')->user()
-            ],
+        return ResponseService::toJson(true, 'Login Success', 200, [
+            'token' => $token,
+            'user' => auth()->guard('api_admin')->user()
         ]);
     }
 }

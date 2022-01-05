@@ -2,7 +2,9 @@
 
 namespace App\Exceptions;
 
+use App\Services\ResponseService;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -34,8 +36,11 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        $this->renderable(function (NotFoundHttpException $e) {
+            return ResponseService::toJson(
+                false,
+                'The page you are looking for was not found', 404
+            );
         });
     }
 }
