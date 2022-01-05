@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use GuzzleHttp\Handler\Proxy;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -15,7 +16,7 @@ class User extends Authenticatable
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var string[]
      */
     protected $fillable = [
         'name',
@@ -26,7 +27,7 @@ class User extends Authenticatable
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var array<int, string>
+     * @var array
      */
     protected $hidden = [
         'password',
@@ -36,9 +37,42 @@ class User extends Authenticatable
     /**
      * The attributes that should be cast.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+        
+    /**
+     * set name atribute to lower
+     *
+     * @param  mixed $value
+     * @return void
+     */
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = strtolower($value);
+    }
+    
+    /**
+     * get name attribute to uppercase
+     *
+     * @param  mixed $value
+     * @return void
+     */
+    public function getNameAttribute($value)
+    {
+        return strtoupper($value);
+    }
+    
+    /**
+     * products relationship
+     *
+     * @return void
+     */
+    public function products ()
+    {
+        return $this->hasMany(Product::class);
+    }
 }
