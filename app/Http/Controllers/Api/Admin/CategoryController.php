@@ -108,7 +108,7 @@ class CategoryController extends Controller
         
             $image = $request->file('image');
             $image->storeAs('public/categories', $image->hashName());
-            array_merge($curentCategory, ['image'=> $image->hashName()]);
+            $curentCategory['image'] = $image->hashName();
         }
 
         $category->update($curentCategory);

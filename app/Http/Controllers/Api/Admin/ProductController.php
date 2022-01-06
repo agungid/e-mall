@@ -138,7 +138,7 @@ class ProductController extends Controller
         
             $image = $request->file('image');
             $image->storeAs('public/products', $image->hashName());
-            array_merge($currentProduct, [ 'image' => $image->hashName()]);
+            $currentProduct['image'] = $image->hashName();
         }
 
         $product->update($currentProduct);
