@@ -19,7 +19,7 @@ class LoginAdminTest extends SetupApp
     public function testAdminLoginSeccess()
     {
         $this->getUser();
-        $response = $this->postApi('/api/v1/login', [
+        $response = $this->postApi(route('admin.login'), [
             'email' => 'test@gamil.com',
             'password' => 'password'
         ]);
@@ -40,7 +40,7 @@ class LoginAdminTest extends SetupApp
     public function testAdminLoginValidation()
     {
         $this->getUser();
-        $response = $this->postApi('/api/v1/login');
+        $response = $this->postApi(route('admin.login'));
         $response->assertStatus(422);
         // dd($response->getData());
         $response->assertJson([
@@ -64,7 +64,7 @@ class LoginAdminTest extends SetupApp
     public function testAdminLoginInCorrect()
     {
         $this->getUser();
-        $response = $this->postApi('/api/v1/login', [
+        $response = $this->postApi(route('admin.login'), [
             'email' => 'test@gamil.com',
             'password' => 'passwordz'
         ]);
@@ -79,7 +79,7 @@ class LoginAdminTest extends SetupApp
     public function testProfile()
     {
         $user = $this->getUser();
-        $response = $this->withUser($user)->getApi('/api/v1/admin/me');
+        $response = $this->withUser($user)->getApi(route('admin.profil'));
         $response->assertStatus(200);
         $response->assertJson([
             'status' => true,

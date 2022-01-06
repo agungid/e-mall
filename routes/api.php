@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\Admin\LoginController;
 use App\Http\Controllers\Api\Admin\ProductController;
 use App\Http\Controllers\Api\Admin\SliderController;
 use App\Http\Controllers\Api\Admin\UserController;
+use App\Http\Controllers\Api\Customer\RegisterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,24 +24,25 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('v1')->group(function () {
-    Route::post('/login', [ LoginController::class, 'index'])->name('admin.login');
     // API for admin
-    Route::group(['prefix' => 'admin', 'middleware' => 'auth:api_admin'],function () {
-        Route::get('/me', [ LoginController::class, 'getUser'])->name('admin.profil');
-        Route::post('/logout', [ LoginController::class, 'logout'])->name('admin.logout');
-        Route::get('/refresh-token', [ LoginController::class, 'refreshToken'])->name('admin.refres_token');
-
-        Route::get('/dashboard', [ DashboardController::class, 'index'])->name('admin.dahboard');
-        Route::apiResource('/categories', CategoryController::class, ['except' => ['create', 'edit']]);
-        Route::apiResource('/products', ProductController::class, ['except' => ['create', 'edit']]);
-        Route::apiResource('/invoices', InvoiceController::class, ['except' => ['create', 'store', 'edit', 'update', 'destroy']]);
-        Route::get('/customers', [ CustomerController::class, 'index'])->name('admin.customers.index');
-        Route::apiResource('/sliders', SliderController::class, ['except' => ['create', 'show', 'edit', 'update']]);
-        Route::apiResource('/users', UserController::class, ['except' => ['create', 'edit']]);
+    Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+        Route::post('/login', [ LoginController::class, 'index'])->name('login');
+        Route::group(['middleware' => 'auth:api_admin'], function() {
+            Route::get('/me', [ LoginController::class, 'getUser'])->name('profil');
+            Route::post('/logout', [ LoginController::class, 'logout'])->name('logout');
+            Route::get('/refresh-token', [ LoginController::class, 'refreshToken'])->name('refres_token');
+            Route::get('/dashboard', [ DashboardController::class, 'index'])->name('dahboard');
+            Route::apiResource('/categories', CategoryController::class, ['except' => ['create', 'edit']]);
+            Route::apiResource('/products', ProductController::class, ['except' => ['create', 'edit']]);
+            Route::apiResource('/invoices', InvoiceController::class, ['except' => ['create', 'store', 'edit', 'update', 'destroy']]);
+            Route::get('/customers', [ CustomerController::class, 'index'])->name('customers.index');
+            Route::apiResource('/sliders', SliderController::class, ['except' => ['create', 'show', 'edit', 'update']]);
+            Route::apiResource('/users', UserController::class, ['except' => ['create', 'edit']]);
+        });
     });
 
     // Api for customer
-    // Route::group(['prefix' => 'user', 'middleware' => 'auth:api_admin'],function () {
-        
-    // });
+    Route::group(['prefix' => 'customer', 'as' => 'customer.'], function () {
+        Route::post('/register', [ RegisterController::class, 'store'])->name('register');
+    });
 });
