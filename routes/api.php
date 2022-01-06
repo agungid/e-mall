@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\Admin\CategoryController;
 use App\Http\Controllers\Api\Admin\DashboardController;
+use App\Http\Controllers\Api\Admin\InvoiceController;
 use App\Http\Controllers\Api\Admin\LoginController;
 use App\Http\Controllers\Api\Admin\ProductController;
 use Illuminate\Http\Request;
@@ -29,6 +30,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/dashboard', [ DashboardController::class, 'index'])->name('admin.dahboard');
         Route::apiResource('/categories', CategoryController::class, ['except' => ['create', 'edit']]);
         Route::apiResource('/products', ProductController::class, ['except' => ['create', 'edit']]);
+        Route::apiResource('/invoices', InvoiceController::class, ['except' => ['create', 'store', 'edit', 'update', 'destroy']]);
     });
 
     // Api for customer
