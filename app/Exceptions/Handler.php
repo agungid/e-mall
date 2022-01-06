@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use App\Services\ResponseService;
 use BadMethodCallException;
+use ErrorException;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -96,6 +97,13 @@ class Handler extends ExceptionHandler
             return ResponseService::toJson(
                 false,
                 $e->getMessage(), 405
+            );
+        });
+
+        $this->renderable(function(ErrorException $e) {
+            return ResponseService::toJson(
+                false,
+                $e->getMessage(), 500
             );
         });
     }

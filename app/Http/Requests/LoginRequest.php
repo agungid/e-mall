@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Services\ResponseService;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 
@@ -32,6 +33,6 @@ class LoginRequest extends FormRequest
 
     public function response(array $errors)
     {
-        return new JsonResponse(['error' => $errors], 422);
+        return ResponseService::toJson(false, 'Validation errors', 422, [], $errors);
     }
 }
