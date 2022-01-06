@@ -36,7 +36,7 @@ Route::prefix('v1')->group(function () {
             Route::get('/dashboard', [ AdminDashboardController::class, 'index'])->name('dahboard');
             Route::apiResource('/categories', CategoryController::class, ['except' => ['create', 'edit']]);
             Route::apiResource('/products', ProductController::class, ['except' => ['create', 'edit']]);
-            Route::apiResource('/invoices', InvoiceController::class, ['except' => ['create', 'store', 'edit', 'update', 'destroy']]);
+            Route::apiResource('/invoices', InvoiceController::class, ['except' => ['index', 'show']]);
             Route::get('/customers', [ CustomerController::class, 'index'])->name('customers.index');
             Route::apiResource('/sliders', SliderController::class, ['except' => ['create', 'show', 'edit', 'update']]);
             Route::apiResource('/users', UserController::class, ['except' => ['create', 'edit']]);
@@ -52,6 +52,7 @@ Route::prefix('v1')->group(function () {
             Route::post('/logout', [ CustomerLoginController::class, 'logout'])->name('logout');
             Route::get('/refresh-token', [ CustomerLoginController::class, 'refreshToken'])->name('refres_token');
             Route::get('/dashboard', [ CustomerDashboardController::class, 'index'])->name('dahboard');
+            Route::apiResource('/invoices', InvoiceController::class, ['only' => ['index', 'show']]);
         });
     });
 });
