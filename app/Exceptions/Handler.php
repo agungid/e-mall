@@ -7,6 +7,7 @@ use BadMethodCallException;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Throwable;
@@ -88,6 +89,13 @@ class Handler extends ExceptionHandler
             return ResponseService::toJson(
                 false,
                 $e->getMessage()
+            );
+        });
+
+        $this->renderable(function(MethodNotAllowedHttpException $e) {
+            return ResponseService::toJson(
+                false,
+                $e->getMessage(), 405
             );
         });
     }
