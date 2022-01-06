@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\Admin\UserController;
 use App\Http\Controllers\Api\Customer\DashboardController as CustomerDashboardController;
 use App\Http\Controllers\Api\Customer\LoginController as CustomerLoginController;
 use App\Http\Controllers\Api\Customer\RegisterController;
+use App\Http\Controllers\Api\Customer\ReviewController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -53,6 +54,7 @@ Route::prefix('v1')->group(function () {
             Route::get('/refresh-token', [ CustomerLoginController::class, 'refreshToken'])->name('refres_token');
             Route::get('/dashboard', [ CustomerDashboardController::class, 'index'])->name('dahboard');
             Route::apiResource('/invoices', InvoiceController::class, ['only' => ['index', 'show']]);
+            Route::post('/reviews', [ ReviewController::class, 'store' ])->name('reviews.store');
         });
     });
 });
