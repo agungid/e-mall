@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\Admin\DashboardController;
 use App\Http\Controllers\Api\Admin\InvoiceController;
 use App\Http\Controllers\Api\Admin\LoginController;
 use App\Http\Controllers\Api\Admin\ProductController;
+use App\Http\Controllers\Api\Admin\SliderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +34,7 @@ Route::prefix('v1')->group(function () {
         Route::apiResource('/products', ProductController::class, ['except' => ['create', 'edit']]);
         Route::apiResource('/invoices', InvoiceController::class, ['except' => ['create', 'store', 'edit', 'update', 'destroy']]);
         Route::get('/customers', [ CustomerController::class, 'index'])->name('admin.customers.index');
+        Route::apiResource('/sliders', SliderController::class, ['except' => ['create', 'show', 'edit', 'update']]);
     });
 
     // Api for customer
