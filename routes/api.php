@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Admin\DashboardController;
 use App\Http\Controllers\Api\Admin\LoginController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,7 +20,11 @@ Route::prefix('v1')->group(function () {
     Route::post('/login', [ LoginController::class, 'index'])->name('admin.login');
     // API for admin
     Route::group(['prefix' => 'admin', 'middleware' => 'auth:api_admin'],function () {
-        Route::get('/profil', [ LoginController::class, 'getUser'])->name('admin.profil');
+        Route::get('/me', [ LoginController::class, 'getUser'])->name('admin.profil');
+        Route::post('/logout', [ LoginController::class, 'logout'])->name('admin.logout');
+        Route::get('/refresh-token', [ LoginController::class, 'refreshToken'])->name('admin.refres_token');
+
+        Route::get('/dashboard', [ DashboardController::class, 'index'])->name('admin.dahboard');
     });
 
     // Api for customer

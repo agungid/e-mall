@@ -3,9 +3,15 @@
 namespace App\Exceptions;
 
 use App\Services\ResponseService;
+use BadMethodCallException;
+use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Throwable;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Exceptions\UserNotDefinedException;
 
 class Handler extends ExceptionHandler
 {
@@ -39,7 +45,49 @@ class Handler extends ExceptionHandler
         $this->renderable(function (NotFoundHttpException $e) {
             return ResponseService::toJson(
                 false,
-                'The page you are looking for was not found', 404
+                'The page are looking was not found', 404
+            );
+        });
+
+        $this->renderable(function (BadMethodCallException $e) {
+            return ResponseService::toJson(
+                false,
+                $e->getMessage()
+            );
+        });
+
+        $this->renderable(function (BindingResolutionException $e) {
+            return ResponseService::toJson(
+                false,
+                $e->getMessage()
+            );
+        });
+
+        $this->renderable(function (RouteNotFoundException $e) {
+            return ResponseService::toJson(
+                false,
+                $e->getMessage(), 401
+            );
+        });
+
+        $this->renderable(function(UserNotDefinedException $e) {
+            return ResponseService::toJson(
+                false,
+                'Please login before', 401
+            );
+        });
+
+        $this->renderable(function(JWTException $e) {
+            return ResponseService::toJson(
+                false,
+                $e->getMessage(), 401
+            );
+        });
+
+        $this->renderable(function(QueryException $e) {
+            return ResponseService::toJson(
+                false,
+                $e->getMessage()
             );
         });
     }

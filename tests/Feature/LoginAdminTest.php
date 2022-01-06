@@ -19,16 +19,16 @@ class LoginAdminTest extends SetupApp
     public function testAdminLoginSeccess()
     {
         $this->getUser();
-        $response = $this->postApi("/api/v1/login", [
-            "email" => "test@gamil.com",
-            "password" => "password"
+        $response = $this->postApi('/api/v1/login', [
+            'email' => 'test@gamil.com',
+            'password' => 'password'
         ]);
         $response->assertStatus(200);
         $response->assertJsonStructure([
-            "data" => [ "token", "token_type", "user" ]
+            'data' => [ 'token', 'expires_in', 'token_type', 'user' ]
         ]);
         $response->assertJson([
-            "message" => "Login Success"
+            'message' => 'Login Success'
         ]);
     }
 
@@ -40,17 +40,17 @@ class LoginAdminTest extends SetupApp
     public function testAdminLoginValidation()
     {
         $this->getUser();
-        $response = $this->postApi("/api/v1/login");
+        $response = $this->postApi('/api/v1/login');
         $response->assertStatus(422);
         // dd($response->getData());
         $response->assertJson([
-            "message" => "The given data was invalid.",
-            "errors" => [
-                "email" => [
-                    "The email field is required."
+            'message' => 'The given data was invalid.',
+            'errors' => [
+                'email' => [
+                    'The email field is required.'
                 ],
-                "password" => [
-                    "The password field is required."
+                'password' => [
+                    'The password field is required.'
                 ]
             ]
         ]);
@@ -64,31 +64,31 @@ class LoginAdminTest extends SetupApp
     public function testAdminLoginInCorrect()
     {
         $this->getUser();
-        $response = $this->postApi("/api/v1/login", [
-            "email" => "test@gamil.com",
-            "password" => "passwordz"
+        $response = $this->postApi('/api/v1/login', [
+            'email' => 'test@gamil.com',
+            'password' => 'passwordz'
         ]);
         $response->assertStatus(401);
         $response->assertJson([
-            "status" => false,
-            "message" => "Email or password in correct",
-            "data" => []
+            'status' => false,
+            'message' => 'Email or password in correct',
+            'data' => []
         ]);
     }
 
     public function testProfile()
     {
         $user = $this->getUser();
-        $response = $this->withUser($user)->getApi("/api/v1/admin/profil");
+        $response = $this->withUser($user)->getApi('/api/v1/admin/me');
         $response->assertStatus(200);
         $response->assertJson([
-            "status" => true,
-            "message" => "Show Data",
-            "data" => [
-                "user" => [
-                    "id" => $user->id,
-                    "name" => $user->name,
-                    "email" =>  $user->email
+            'status' => true,
+            'message' => 'Show Data',
+            'data' => [
+                'user' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' =>  $user->email
                 ]
             ]
         ]);
