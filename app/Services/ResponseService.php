@@ -15,11 +15,21 @@ class ResponseService
      * @param  mixed $code
      * @return void
      */
-    public static function toJson($status,$message, $code = 500, $data = null) {
+    public static function toJson($status,$message, $code = 500, $data = [], $error = []) {
         return response()->json([
             'status'  => $status,
             'message' => $message,
-            'data'    => $data
+            'data'    => $data,
+            'error'    => $error
         ], $code);
+    }
+
+    public static function toArray($status, $message, $resources = []) 
+    {
+        return [
+            'status'       => $status,
+            'message'      => $message,
+            'data'         => $resources,
+        ];
     }
 }

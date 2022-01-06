@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Admin\CategoryController;
 use App\Http\Controllers\Api\Admin\DashboardController;
 use App\Http\Controllers\Api\Admin\LoginController;
+use App\Http\Controllers\Api\Admin\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,7 +27,8 @@ Route::prefix('v1')->group(function () {
         Route::get('/refresh-token', [ LoginController::class, 'refreshToken'])->name('admin.refres_token');
 
         Route::get('/dashboard', [ DashboardController::class, 'index'])->name('admin.dahboard');
-        Route::apiResource('/categories', CategoryController::class, ['except' => ['create', 'edit'], 'as' => 'admin']);
+        Route::apiResource('/categories', CategoryController::class, ['except' => ['create', 'edit']]);
+        Route::apiResource('/products', ProductController::class, ['except' => ['create', 'edit']]);
     });
 
     // Api for customer

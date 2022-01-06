@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use App\Services\ResponseService;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CategoryResource extends JsonResource
+class ProductResource extends JsonResource
 {
 
     public $status;
@@ -17,6 +17,7 @@ class CategoryResource extends JsonResource
         $this->status = $status;
         $this->message = $message;
     }
+    
     /**
      * Transform the resource into an array.
      *
