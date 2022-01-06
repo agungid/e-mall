@@ -16,10 +16,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('v1')->group(function () {
-    Route::post('/login', [ LoginController::class, 'index', [ 'as' => 'admin' ] ]);
+    Route::post('/login', [ LoginController::class, 'index'])->name('admin.login');
     // API for admin
     Route::group(['prefix' => 'admin', 'middleware' => 'auth:api_admin'],function () {
-        
+        Route::get('/profil', [ LoginController::class, 'getUser'])->name('admin.profil');
     });
 
     // Api for customer
