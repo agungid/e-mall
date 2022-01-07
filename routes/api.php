@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\Customer\DashboardController as CustomerDashboardCo
 use App\Http\Controllers\Api\Customer\LoginController as CustomerLoginController;
 use App\Http\Controllers\Api\Customer\RegisterController;
 use App\Http\Controllers\Api\Customer\ReviewController;
+use App\Http\Controllers\Api\Web\CartController;
 use App\Http\Controllers\Api\Web\CategoryController as WebCategoryController;
 use App\Http\Controllers\Api\Web\ProductController as WebProductController;
 use App\Http\Controllers\Api\Web\RajaOngkirController;
@@ -70,5 +71,10 @@ Route::prefix('v1')->group(function () {
         Route::get('/provinces', [ RajaOngkirController::class, 'getProvinces'])->name('provices');
         Route::get('/cities', [ RajaOngkirController::class, 'getCities'])->name('cities');
         Route::post('/shipping-cost', [ RajaOngkirController::class, 'checkShippingCost'])->name('shipping-cost');
+        Route::get('/carts', [ CartController::class, 'index' ]);
+        Route::post('/carts', [ CartController::class, 'store' ]);
+        Route::get('/carts/total_price', [ CartController::class, 'getCartPrice' ]);
+        Route::get('/carts/total_weight', [ CartController::class, 'getCartWeight' ]);
+        Route::delete('/carts/{id}', [ CartController::class, 'removeCart' ]);
     });
 });
