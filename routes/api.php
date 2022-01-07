@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\Customer\LoginController as CustomerLoginController
 use App\Http\Controllers\Api\Customer\RegisterController;
 use App\Http\Controllers\Api\Customer\ReviewController;
 use App\Http\Controllers\Api\Web\CategoryController as WebCategoryController;
+use App\Http\Controllers\Api\Web\ProductController as WebProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -62,5 +63,6 @@ Route::prefix('v1')->group(function () {
     //API for web
     Route::group([ 'prefix' => 'web', 'as' => 'web.' ], function () {
         Route::apiResource('/categories', WebCategoryController::class, ['only' => ['index', 'show' ]]);
+        Route::apiResource('/products', WebProductController::class, ['only' => ['index', 'show']]);
     });
 });
