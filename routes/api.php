@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\Customer\RegisterController;
 use App\Http\Controllers\Api\Customer\ReviewController;
 use App\Http\Controllers\Api\Web\CategoryController as WebCategoryController;
 use App\Http\Controllers\Api\Web\ProductController as WebProductController;
+use App\Http\Controllers\Api\Web\RajaOngkirController;
 use App\Http\Controllers\Api\Web\SliderController as WebSliderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -65,6 +66,9 @@ Route::prefix('v1')->group(function () {
     Route::group([ 'prefix' => 'web', 'as' => 'web.' ], function () {
         Route::apiResource('/categories', WebCategoryController::class, ['only' => ['index', 'show' ]]);
         Route::apiResource('/products', WebProductController::class, ['only' => ['index', 'show']]);
-        Route::get('/sliders', [ WebSliderController::class, 'index' ], ['as' => 'web']);
+        Route::get('/sliders', [ WebSliderController::class, 'index' ])->name('slider.index');
+        Route::get('/provinces', [ RajaOngkirController::class, 'getProvinces'])->name('provices');
+        Route::get('/cities', [ RajaOngkirController::class, 'getCities'])->name('cities');
+        Route::post('/shipping-cost', [ RajaOngkirController::class, 'checkShippingCost'])->name('shipping-cost');
     });
 });
