@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\Admin\CategoryController;
+use App\Http\Controllers\Api\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Api\Admin\CustomerController;
 use App\Http\Controllers\Api\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Api\Admin\InvoiceController;
@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\Customer\DashboardController as CustomerDashboardCo
 use App\Http\Controllers\Api\Customer\LoginController as CustomerLoginController;
 use App\Http\Controllers\Api\Customer\RegisterController;
 use App\Http\Controllers\Api\Customer\ReviewController;
+use App\Http\Controllers\Api\Web\CategoryController as WebCategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,7 +36,7 @@ Route::prefix('v1')->group(function () {
             Route::post('/logout', [ AdminLoginController::class, 'logout'])->name('logout');
             Route::get('/refresh-token', [ AdminLoginController::class, 'refreshToken'])->name('refres_token');
             Route::get('/dashboard', [ AdminDashboardController::class, 'index'])->name('dahboard');
-            Route::apiResource('/categories', CategoryController::class, ['except' => ['create', 'edit']]);
+            Route::apiResource('/categories', AdminCategoryController::class, ['except' => ['create', 'edit']]);
             Route::apiResource('/products', ProductController::class, ['except' => ['create', 'edit']]);
             Route::apiResource('/invoices', InvoiceController::class, ['except' => ['index', 'show']]);
             Route::get('/customers', [ CustomerController::class, 'index'])->name('customers.index');
@@ -56,5 +57,10 @@ Route::prefix('v1')->group(function () {
             Route::apiResource('/invoices', InvoiceController::class, ['only' => ['index', 'show']]);
             Route::post('/reviews', [ ReviewController::class, 'store' ])->name('reviews.store');
         });
+    });
+
+    //API for web
+    Route::group([ 'prefix' => 'web', 'as' => 'web.' ], function () {
+        Route::apiResource('/categories', WebCategoryController::class, ['only' => ['index', 'show' ]]);
     });
 });
